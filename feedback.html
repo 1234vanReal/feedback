@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gespeichertes Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            background: #444;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: white;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gespeichertes Feedback</h1>
+    </header>
+    <nav>
+        <a href="https://trinity-protocol-1.onrender.com/adminzugang.html">Admin Zugang</a>
+
+    </nav>
+    <main>
+        <h2>Feedback-Liste</h2>
+        <ul id="feedback-list"></ul>
+    </main>
+    <footer>
+        <p>&copy; 2025 Trinity Protocol.</p>
+        <p>Impressum: kcel reie weg 5</p>
+    </footer>
+    <script>
+        // Feedback laden und anzeigen
+        function loadFeedback() {
+            fetch('/api/feedback')
+                .then(response => response.json())
+                .then(data => {
+                    const feedbackList = document.getElementById('feedback-list');
+                    feedbackList.innerHTML = ''; // Liste zurücksetzen
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = `${item.name}: ${item.message} [${item.created_at}]`;
+                        feedbackList.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error('Fehler beim Laden des Feedbacks:', error);
+                });
+        }
+
+        // Feedback beim Laden der Seite anzeigen
+        loadFeedback();
+    </script>
+</body>
+</html>

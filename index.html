@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Modul</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            background: #444;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Feedback Modul</h1>
+    </header>
+    <nav>
+        <a href="https://trinity-protocol-1.onrender.com">Home</a>
+    </nav>
+    <main>
+        <h2>Feedback Formular</h2>
+        <form id="feedback-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Dein Name" required>
+
+            <label for="message">Nachricht:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Dein Feedback" required></textarea>
+
+            <button type="submit">Absenden</button>
+        </form>
+        <div id="success-message" class="success-message" style="display: none;">
+            Vielen Dank für dein Feedback!
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Trinity Protocol.</p>
+        <p>Impressum: kcel reie weg 5</p>
+    </footer>
+    <script>
+        const form = document.getElementById('feedback-form');
+        const successMessage = document.getElementById('success-message');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Verhindert das Neuladen der Seite
+
+            const formData = {
+                name: form.name.value,
+                message: form.message.value
+            };
+
+            fetch('/api/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Erfolg:', data);
+                successMessage.style.display = 'block';
+                form.reset();
+            })
+            .catch(error => {
+                console.error('Fehler:', error);
+            });
+        });
+    </script>
+</body>
+</html>
